@@ -22,7 +22,7 @@ function validateUserId(req, res, next) {
 }
 
 const userSchema = yup.object({
-  name: yup.string().trim().min(3).required()
+  name: yup.string().trim().min(3).required('missing required name')
 })
 
 const validateUser = async (req, res, next) => {
@@ -32,12 +32,12 @@ const validateUser = async (req, res, next) => {
     req.body = validatedUser
     next()
   } catch(err) {
-    next(err)
+    next({status: 400, message: err.message})
   }
 }
 
 const postSchema = yup.object({
-  text: yup.string().trim().min(4).required()
+  text: yup.string().trim().min(4).required('missing required text')
 })
 
 const validatePost = async (req, res, next) => {
@@ -47,7 +47,7 @@ const validatePost = async (req, res, next) => {
     req.body = validPost
     next()
   } catch(err) {
-    next(err)
+    next({status: 400, message: err.message})
   }
 }
 
